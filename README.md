@@ -1,0 +1,2 @@
+# TextMining
+Text Mining exercises
