@@ -25,8 +25,6 @@ from sklearn.ensemble import RandomForestClassifier
 
 import time
 
-MAX_FEATURES = 1000
-
 def getUserData(file):
     data = open(file, "r")
     # lines = data.read().splitlines()
@@ -60,26 +58,6 @@ def myTokenizer(text):
     return tknzr1.tokenize(text)
 
 
-def myVectorizer(docs, max):
-    norm = None
-    use_idf = True
-    min_df = 1
-    max_df = 1
-    sublinear_tf = False
-    # vec = CountVectorizer(tokenizer=myTokenizer)
-    # vec = TfidfVectorizer(norm=None, smooth_idf=False, stop_words=stop)
-    # vec = TfidfVectorizer(norm=None, use_idf=False, stop_words=stopwords.words("spanish"), max_features=max, tokenizer=myTokenizer)
-    # vec = TfidfVectorizer(norm=None, use_idf=False, max_features=max, tokenizer=myTokenizer)
-    # vec = TfidfVectorizer(norm=None, use_idf=False)
-    vec = TfidfVectorizer(min_df=min_df, max_df=max_df, norm=norm, use_idf=use_idf, sublinear_tf=sublinear_tf,
-                          stop_words=stopwords.words("spanish"),
-                          max_features=max, tokenizer=myTokenizer, ngram_range=(1, 2))
-    X = vec.fit_transform(docs)
-    voca = vec.get_feature_names()
-    return X, voca
-
-
-
 start_time = time.time()
 
 
@@ -102,8 +80,8 @@ def getAllTweets(data):
         print(index_str, "user", user, "has", i, "tweets")
         index += 1
         total_tweets += i
-        if index == 101:
-            break
+        # if index == 101:
+        #     break
 
     print("Total tweets", total_tweets)
     print("Total tweets text", len(tweets_text))
@@ -127,15 +105,15 @@ print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 norm = None
-use_idf = False
+use_idf = True
 min_df = 1
 max_df = 1
 sublinear_tf = False
-max = 2000
+max = 500
 
 vec = TfidfVectorizer(min_df=min_df, max_df=max_df, norm=norm, use_idf=use_idf, sublinear_tf=sublinear_tf,
                       stop_words=stopwords.words("spanish"),
-                      max_features=max, tokenizer=myTokenizer, ngram_range=(1, 2))
+                      max_features=max, tokenizer=myTokenizer, ngram_range=(1, 1))
 print("Calculating training features matrix...")
 X = vec.fit_transform(tweets_text)
 voca = vec.get_feature_names()
@@ -148,7 +126,7 @@ print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 # add extra features
 lexicon = getLexiconDict("ElhPolar_esV1.lex.txt")
 
-def getExtraFeatures(size, tweets_text, lexicon):
+def getExtraFeaturesSentiments(size, tweets_text, lexicon):
     XX = numpy.zeros((size, 2))
     # add extra features
     i = 0
@@ -162,19 +140,21 @@ def getExtraFeatures(size, tweets_text, lexicon):
                 positive += 1
             elif sentiment == "negative":
                 negative += 1
-        XX[i][0] = positive
-        XX[i][1] = negative
+        XX[i][0] = positive/len(tokens) if positive > 0 else 0
+        XX[i][1] = negative/len(tokens) if negative > 0 else 0
         i += 1
     return XX
 
 
 print("Calculating extra features...")
-XX = getExtraFeatures(X.shape[0], tweets_text, lexicon)
+XX = getExtraFeaturesSentiments(X.shape[0], tweets_text, lexicon)
 print("extra features size", len(XX))
 print("extra features sample", XX[0:5])
 # concatenate features and extra features matrixes
 X = numpy.concatenate((X.toarray(), XX), axis=1)
 print("The final features matrix has shape", X.shape)
+print("--- %s seconds ---" % (time.time() - start_time))
+print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 
 
@@ -184,15 +164,17 @@ print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 print("Calculating test extra features...")
-test_XX = getExtraFeatures(test_X.shape[0], test_tweets_text, lexicon)
+test_XX = getExtraFeaturesSentiments(test_X.shape[0], test_tweets_text, lexicon)
 print("test extra features has shape", test_XX.shape)
 print("test extra features sample", test_XX[0:5])
 # concatenate features and extra features matrixes
 test_X = numpy.concatenate((test_X.toarray(), test_XX), axis=1)
 print("The final test features matrix has shape", test_X.shape)
+print("--- %s seconds ---" % (time.time() - start_time))
+print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 
-y = numpy.array([sex for (user, (country, sex)) in training_data.items()][0:100])
+y = numpy.array([sex for (user, (country, sex)) in training_data.items()][0:])
 
 clf = svm.SVC()
 clf.fit(X, y)
@@ -200,7 +182,7 @@ clf.fit(X, y)
 preds = clf.predict(test_X)
 print(preds)
 
-test_y = numpy.array([sex for (user, (country, sex)) in test_data.items()][0:100])
+test_y = numpy.array([sex for (user, (country, sex)) in test_data.items()][0:])
 
 print(test_y)
 print("There are ", (test_y != preds).sum(), "wrong predictions out of", len(test_y))
