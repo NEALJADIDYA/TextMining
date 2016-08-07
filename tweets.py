@@ -91,7 +91,8 @@ def get_all_tweets(data):
 
 def get_extra_features_from_text(size, _tweets_text, _lexicon):
     # add extra features from tweets text:
-    # - positive/negative,
+    # - positive,
+    # - negative,
     # - number of tokens,
     # - mean size of tokens
     _XX = numpy.zeros((size, 4))
@@ -126,7 +127,12 @@ def get_extra_features_from_metadata(size, _user_last_tweet_metadata):
     # - favourites count
     # - utc offset
     # - statuses count
-    _XX = numpy.zeros((size, 5))
+    # - profile_sidebar_border_color
+    # - profile_background_color
+    # - profile_link_color
+    # - profile_text_color
+    # - profile_sidebar_fill_color
+    _XX = numpy.zeros((size, 10))
     i = 0
     for metadata in _user_last_tweet_metadata:
         u = metadata.get("user", {})
@@ -135,12 +141,26 @@ def get_extra_features_from_metadata(size, _user_last_tweet_metadata):
         favourites = u.get("favourites_count", 0) if u.get("favourites_count", 0) is not None else 0
         utc = u.get("utc_offset", 0) if u.get("utc_offset", 0) is not None else 0
         statuses = u.get("statuses_count", 0) if u.get("statuses_count", 0) is not None else 0
+        sidebar_border_color = u.get("profile_sidebar_border_color", "0") \
+            if u.get("profile_sidebar_border_color", "0") is not None else "0"
+        background_color = u.get("profile_background_color", "0") \
+            if u.get("profile_background_color", "0") is not None else "0"
+        link_color = u.get("profile_link_color", "0") if u.get("profile_link_color", "0") is not None else "0"
+        text_color = u.get("profile_text_color", "0") if u.get("profile_text_color", "0") is not None else "0"
+        sidebar_fill_color = u.get("profile_sidebar_fill_color", "0") \
+            if u.get("profile_sidebar_fill_color", "0") is not None else "0"
         _XX[i][0] = followers
         _XX[i][1] = friends
         _XX[i][2] = favourites
         _XX[i][3] = utc
         _XX[i][4] = statuses
-        # print(_XX[i][0]," ",_XX[i][1]," ",_XX[i][2]," ",_XX[i][3]," ",_XX[i][4])
+        print("sidebar_border_color", sidebar_border_color)
+        _XX[i][5] = int(sidebar_border_color, base=16)
+        _XX[i][6] = int(background_color, base=16)
+        _XX[i][7] = int(link_color, base=16)
+        _XX[i][8] = int(text_color, base=16)
+        _XX[i][9] = int(sidebar_fill_color, base=16)
+        print("color",_XX[i][5]," ",_XX[i][6]," ",_XX[i][7]," ",_XX[i][8]," ",_XX[i][9])
         i += 1
     print("metadata extra features size", len(_XX))
     print("metadata extra features sample", _XX[0:5])
@@ -168,7 +188,7 @@ min_df = 1
 max_df = 1
 sublinear_tf = False
 smooth_idf = True
-max = 1000
+max = 2000
 
 vec = CountVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
 # vec = TfidfVectorizer(min_df=min_df, max_df=max_df, norm=norm, use_idf=use_idf, smooth_idf=smooth_idf,
@@ -185,7 +205,6 @@ print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 # add extra features
 lexicon = get_lexicon_dict("ElhPolar_esV1.lex.txt")
-
 
 print("Calculating extra features...")
 XX = get_extra_features_from_text(X.shape[0], tweets_text, lexicon)
@@ -220,11 +239,11 @@ print("The final test features matrix has shape", test_X.shape)
 print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
-y = numpy.array([country for (user, country, sex) in training_data][0:])
+y = numpy.array([sex for (user, country, sex) in training_data][0:])
 print("Target",y)
 
 # clf = svm.SVC()
-clf = RandomForestClassifier(n_estimators=10)
+clf = RandomForestClassifier(n_estimators=100)
 clf.fit(X, y)
 
 preds = clf.predict(test_X)
@@ -236,7 +255,7 @@ for p in preds:
 f.write("\n")
 f.close()
 
-test_y = numpy.array([country for (user, country, sex) in test_data][0:])
+test_y = numpy.array([sex for (user, country, sex) in test_data][0:])
 
 print("Test target",test_y)
 print("There are ", (test_y != preds).sum(), "wrong predictions out of", len(test_y))
