@@ -64,17 +64,26 @@ def get_all_tweets(data):
     index = 1
     _tweets_text = []
     _user_last_tweet_metadata = []
+    _user_sentence_size_mean = []
     for (user, country, sex) in data:
         tweets_file_path = os.path.join(country, user + ".json")
         tweets = open(tweets_file_path, "r")
         i = 0
         user_tweets_text = ""
         tweet_json = {}
+        sentence_sizes = []
         for tweet in tweets:
             i += 1
             tweet_json = json.loads(tweet)
-            user_tweets_text += tweet_json["text"] + " "
-        # print("user",user,"text",user_tweets_text)
+            text = tweet_json["text"]
+            user_tweets_text += text + " "
+            sentence_sizes.append(len(text))
+        mean = numpy.array(sentence_sizes).mean() if len(sentence_sizes)>0 else 0
+        _user_sentence_size_mean.append(mean)
+        u = tweet_json.get("user", {})
+        # print("name",u.get("name", ""),"description",u.get("description", ""))
+        user_tweets_text += u.get("name", "") + " "
+        user_tweets_text += u.get("description", "") + " "
         _tweets_text.append(user_tweets_text)
         _user_last_tweet_metadata.append(tweet_json)
         index_str = str(index) + "/" + str(data_size) + "."
@@ -86,17 +95,19 @@ def get_all_tweets(data):
 
     print("Total tweets", total_tweets)
     print("Total tweets text", len(_tweets_text))
-    return _tweets_text, _user_last_tweet_metadata
+    return _tweets_text, _user_last_tweet_metadata, _user_sentence_size_mean
 
 
-def get_extra_features_from_text(size, _tweets_text, _lexicon):
+def get_extra_features_from_text(size, _tweets_text, _lexicon, _user_sentence_size_mean):
     # add extra features from tweets text:
     # - positive,
     # - negative,
+    # - total sentiment,
     # - number of tokens,
     # - mean size of tokens,
-    # - maximum word
-    _XX = numpy.zeros((size, 5))
+    # - maximum word,
+    # - sentence size mean
+    _XX = numpy.zeros((size, 7))
     i = 0
     for text in _tweets_text:
         # print("-")
@@ -112,11 +123,13 @@ def get_extra_features_from_text(size, _tweets_text, _lexicon):
                 negative += 1
         _XX[i][0] = positive #/len(tokens) if positive > 0 else 0
         _XX[i][1] = negative #/len(tokens) if negative > 0 else 0
-        _XX[i][2] = len(tokens)
+        _XX[i][2] = positive + negative
+        _XX[i][3] = len(tokens)
         tokens_sizes = numpy.array([len(x) for x in tokens])
-        _XX[i][3] = tokens_sizes.mean() if len(tokens) > 0 else 0
-        _XX[i][4] = tokens_sizes.max() if len(tokens) > 0 else 0
-        # print(_XX[i][0]," ",_XX[i][1]," ",_XX[i][2]," ",_XX[i][3])
+        _XX[i][4] = tokens_sizes.mean() if len(tokens) > 0 else 0
+        _XX[i][5] = tokens_sizes.max() if len(tokens) > 0 else 0
+        _XX[i][6] = _user_sentence_size_mean[i]
+        # print(_XX[i][5])
         i += 1
     print("text extra features size", len(_XX))
     print("text extra features sample", _XX[0:5])
@@ -157,7 +170,6 @@ def get_extra_features_from_metadata(size, _user_last_tweet_metadata):
         _XX[i][2] = favourites
         _XX[i][3] = utc
         _XX[i][4] = statuses
-        # print("sidebar_border_color", sidebar_border_color)
         _XX[i][5] = int(sidebar_border_color, base=16)
         _XX[i][6] = int(background_color, base=16)
         _XX[i][7] = int(link_color, base=16)
@@ -173,7 +185,7 @@ def get_extra_features_from_metadata(size, _user_last_tweet_metadata):
 training_data = get_user_data("training.txt")
 training_size = len(training_data)
 print("Training size is", training_size)
-tweets_text, user_last_tweet_metadata = get_all_tweets(training_data)
+tweets_text, user_last_tweet_metadata, user_sentence_size_mean = get_all_tweets(training_data)
 print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
@@ -181,7 +193,7 @@ print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 test_data = get_user_data("test.txt")
 test_size = len(test_data)
 print("Test size is", test_size)
-test_tweets_text, test_user_last_tweet_metadata = get_all_tweets(test_data)
+test_tweets_text, test_user_last_tweet_metadata, test_user_sentence_size_mean = get_all_tweets(test_data)
 print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
@@ -211,7 +223,7 @@ print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 lexicon = get_lexicon_dict("ElhPolar_esV1.lex.txt")
 
 print("Calculating extra features...")
-XX = get_extra_features_from_text(X.shape[0], tweets_text, lexicon)
+XX = get_extra_features_from_text(X.shape[0], tweets_text, lexicon, user_sentence_size_mean)
 # concatenate features and extra features matrixes
 X = numpy.concatenate((X.toarray(), XX), axis=1)
 
@@ -231,7 +243,7 @@ print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 print("Calculating test extra features...")
-test_XX = get_extra_features_from_text(test_X.shape[0], test_tweets_text, lexicon)
+test_XX = get_extra_features_from_text(test_X.shape[0], test_tweets_text, lexicon, test_user_sentence_size_mean)
 # concatenate features and extra features matrixes
 test_X = numpy.concatenate((test_X.toarray(), test_XX), axis=1)
 
@@ -278,9 +290,11 @@ for v in voca:
 # write header: extra features
 f.write("positive\t")
 f.write("negative\t")
+f.write("sentiment total\t")
 f.write("number of tokens\t")
 f.write("mean size of tokens\t")
 f.write("maximum word\t")
+f.write("sentence size mean\t")
 f.write("followers count\t")
 f.write("friends count\t")
 f.write("favourites count\t")
@@ -290,7 +304,7 @@ f.write("profile_sidebar_border_color\t")
 f.write("profile_background_color\t")
 f.write("profile_link_color\t")
 f.write("profile_text_color\t")
-f.write("profile_sidebar_fill_color")
+f.write("profile_sidebar_fill_color\t")
 
 # write header: classes
 f.write("country\t")
