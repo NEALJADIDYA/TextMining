@@ -109,8 +109,8 @@ def get_extra_features_from_text(size, _tweets_text, _lexicon):
                 positive += 1
             elif sentiment == "negative":
                 negative += 1
-        _XX[i][0] = positive/len(tokens) if positive > 0 else 0
-        _XX[i][1] = negative/len(tokens) if negative > 0 else 0
+        _XX[i][0] = positive #/len(tokens) if positive > 0 else 0
+        _XX[i][1] = negative #/len(tokens) if negative > 0 else 0
         _XX[i][2] = len(tokens)
         _XX[i][3] = numpy.array([len(x) for x in tokens]).mean() if len(tokens) > 0 else 0
         # print(_XX[i][0]," ",_XX[i][1]," ",_XX[i][2]," ",_XX[i][3])
@@ -154,13 +154,13 @@ def get_extra_features_from_metadata(size, _user_last_tweet_metadata):
         _XX[i][2] = favourites
         _XX[i][3] = utc
         _XX[i][4] = statuses
-        print("sidebar_border_color", sidebar_border_color)
+        # print("sidebar_border_color", sidebar_border_color)
         _XX[i][5] = int(sidebar_border_color, base=16)
         _XX[i][6] = int(background_color, base=16)
         _XX[i][7] = int(link_color, base=16)
         _XX[i][8] = int(text_color, base=16)
         _XX[i][9] = int(sidebar_fill_color, base=16)
-        print("color",_XX[i][5]," ",_XX[i][6]," ",_XX[i][7]," ",_XX[i][8]," ",_XX[i][9])
+        # print("color",_XX[i][5]," ",_XX[i][6]," ",_XX[i][7]," ",_XX[i][8]," ",_XX[i][9])
         i += 1
     print("metadata extra features size", len(_XX))
     print("metadata extra features sample", _XX[0:5])
@@ -188,9 +188,10 @@ min_df = 1
 max_df = 1
 sublinear_tf = False
 smooth_idf = True
-max = 2000
+max = 4000
 
-vec = CountVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
+# vec = CountVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
+vec = TfidfVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
 # vec = TfidfVectorizer(min_df=min_df, max_df=max_df, norm=norm, use_idf=use_idf, smooth_idf=smooth_idf,
 #                       sublinear_tf=sublinear_tf, #stop_words=stopwords.words("spanish"),
 #                       max_features=max, tokenizer=myTokenizer, ngram_range=(1, 2))
