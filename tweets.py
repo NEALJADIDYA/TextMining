@@ -94,8 +94,9 @@ def get_extra_features_from_text(size, _tweets_text, _lexicon):
     # - positive,
     # - negative,
     # - number of tokens,
-    # - mean size of tokens
-    _XX = numpy.zeros((size, 4))
+    # - mean size of tokens,
+    # - maximum word
+    _XX = numpy.zeros((size, 5))
     i = 0
     for text in _tweets_text:
         # print("-")
@@ -112,7 +113,9 @@ def get_extra_features_from_text(size, _tweets_text, _lexicon):
         _XX[i][0] = positive #/len(tokens) if positive > 0 else 0
         _XX[i][1] = negative #/len(tokens) if negative > 0 else 0
         _XX[i][2] = len(tokens)
-        _XX[i][3] = numpy.array([len(x) for x in tokens]).mean() if len(tokens) > 0 else 0
+        tokens_sizes = numpy.array([len(x) for x in tokens])
+        _XX[i][3] = tokens_sizes.mean() if len(tokens) > 0 else 0
+        _XX[i][4] = tokens_sizes.max() if len(tokens) > 0 else 0
         # print(_XX[i][0]," ",_XX[i][1]," ",_XX[i][2]," ",_XX[i][3])
         i += 1
     print("text extra features size", len(_XX))
@@ -188,7 +191,7 @@ min_df = 1
 max_df = 1
 sublinear_tf = False
 smooth_idf = True
-max = 4000
+max = 2000
 
 # vec = CountVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
 vec = TfidfVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
@@ -267,13 +270,44 @@ print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 
 f = open("results"+str(time.time())+".txt","w",encoding="utf-8")
+
+# write header: vocabulary
 for v in voca:
-    f.write(v + ";")
+    f.write(v + "\t")
+
+# write header: extra features
+f.write("positive\t")
+f.write("negative\t")
+f.write("number of tokens\t")
+f.write("mean size of tokens\t")
+f.write("maximum word\t")
+f.write("followers count\t")
+f.write("friends count\t")
+f.write("favourites count\t")
+f.write("utc offset\t")
+f.write("statuses count\t")
+f.write("profile_sidebar_border_color\t")
+f.write("profile_background_color\t")
+f.write("profile_link_color\t")
+f.write("profile_text_color\t")
+f.write("profile_sidebar_fill_color")
+
+# write header: classes
+f.write("country\t")
+f.write("sex")
 f.write("\n")
+
+# write rows: features values and classes
+i = 0
 for x in X:
     for xx in x:
-        f.write(str(xx) + ";")
+        f.write(str(xx) + "\t")
+    (user, country, sex) = training_data[i]
+    f.write(country + "\t")
+    f.write(sex)
     f.write("\n")
+    i += 1
+
 f.close()
 
 
