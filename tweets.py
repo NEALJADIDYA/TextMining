@@ -25,6 +25,10 @@ from sklearn.ensemble import RandomForestClassifier
 
 import time
 
+r = re.compile('\w+')
+
+start_time = time.time()
+
 
 def get_user_data(file):
     data = open(file, "r")
@@ -53,9 +57,7 @@ def get_lexicon_dict(file):
 def myTokenizer(text):
     tknzr1 = TweetTokenizer(strip_handles=True, reduce_len=True, preserve_case=False)
     return tknzr1.tokenize(text)
-
-
-start_time = time.time()
+    # return r.findall(text)
 
 
 def get_all_tweets(data):

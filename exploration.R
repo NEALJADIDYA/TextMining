@@ -1,13 +1,13 @@
-# install.packages(ggplot2)
+# install.packages("ggplot2")
 # install.packages("wordcloud")
 
 library(ggplot2)
-library("wordcloud")
+library(wordcloud)
 
+data <- read.csv("C:/BigData/TextMining/hispatweets/res.txt", encoding="UTF-8", quote="", sep = "\t", check.names = F)
 
-data <- read.delim("C:/BigData/TextMining/hispatweets/res.txt", encoding="UTF-8", quote="")
-
-head(data[,c(2017:2018)])
+head(data[,1:20])
+head(data[,2017:2018])
 
 female <- data[data$sex == "female",]
 male <- data[data$sex == "male",]
@@ -55,6 +55,9 @@ plot(factor(data$sex), data$favourites.count)
 plot(factor(data$sex), data$statuses.count)
 plot(factor(data$sex), data$number.of.tokens)
 
+p <- ggplot(data, aes(data$sex, data$positive+data$negative))
+p <- p + geom_point()
+p
 
 bycountry <- by(data[,1:2000], data$country, colMeans)
 argentinasort <- sort(bycountry$argentina, decreasing = T)
@@ -74,17 +77,24 @@ venezuelasort[1:20]
 
 
 
-
-
 freq <- colMeans(data[,1:2000])
-p <- ggplot(wf, aes(word, freq))    
-p <- p + geom_bar(stat="identity")   
-p <- p + theme(axis.text.x=element_text(angle=45, hjust=1))   
+freqMale <- colMeans(male[,1:2000])
+freqFemale <- colMeans(female[,1:2000])
+freqUnknown <- colMeans(unknown[,1:2000])
+
+wf <- data.frame(word=names(freq), freq=freq)  
+
+p <- ggplot(subset(wf, freq>0.1), aes(word, freq))
+p <- p + geom_bar(stat="identity")
+p <- p + theme(axis.text.x=element_text(angle=45, hjust=1))
 p
 
-set.seed(142) 
+set.seed(142)
 wordcloud(names(freq), freq, min.freq=25)
 
 wordcloud(names(freq), freq, max.words=100)
 
 wordcloud(names(freq), freq, max.words=50, colors=brewer.pal(6, "Dark2"))
+wordcloud(names(freqMale), freq, max.words=50, colors=brewer.pal(6, "Dark2"))
+wordcloud(names(freqFemale), freq, max.words=50, colors=brewer.pal(6, "Dark2"))
+wordcloud(names(freqUnknown), freq, max.words=50, colors=brewer.pal(6, "Dark2"))
