@@ -1,3 +1,10 @@
+# install.packages(ggplot2)
+# install.packages("wordcloud")
+
+library(ggplot2)
+library("wordcloud")
+
+
 data <- read.delim("C:/BigData/TextMining/hispatweets/res.txt", encoding="UTF-8", quote="")
 
 head(data[,c(2017:2018)])
@@ -64,3 +71,20 @@ espanasort[1:20]
 mexicosort[1:20]
 perusort[1:20]
 venezuelasort[1:20]
+
+
+
+
+
+freq <- colMeans(data[,1:2000])
+p <- ggplot(wf, aes(word, freq))    
+p <- p + geom_bar(stat="identity")   
+p <- p + theme(axis.text.x=element_text(angle=45, hjust=1))   
+p
+
+set.seed(142) 
+wordcloud(names(freq), freq, min.freq=25)
+
+wordcloud(names(freq), freq, max.words=100)
+
+wordcloud(names(freq), freq, max.words=50, colors=brewer.pal(6, "Dark2"))
