@@ -76,7 +76,6 @@ perusort[1:20]
 venezuelasort[1:20]
 
 
-
 freq <- colMeans(data[,1:2000])
 freqMale <- colMeans(male[,1:2000])
 freqFemale <- colMeans(female[,1:2000])
@@ -84,17 +83,25 @@ freqUnknown <- colMeans(unknown[,1:2000])
 
 wf <- data.frame(word=names(freq), freq=freq)  
 
-p <- ggplot(subset(wf, freq>0.1), aes(word, freq))
+# p<-ggplot(diamonds, aes(clarity, group = color, colour=color))
+# p+geom_line(aes(y=..count..), stat="count")
+
+p <- ggplot(subset(wf, freq>0.05), aes(word, freq))
 p <- p + geom_bar(stat="identity")
 p <- p + theme(axis.text.x=element_text(angle=45, hjust=1))
 p
 
 set.seed(142)
-wordcloud(names(freq), freq, min.freq=25)
+wordcloud(names(freq), freq, max.words=40)
 
-wordcloud(names(freq), freq, max.words=100)
+wordcloud(names(freq), freq, min.freq=0.05)
+wordcloud(names(freqMale), freqMale, min.freq=0.05, colors=brewer.pal(6, "Dark2"))
+wordcloud(names(freqFemale), freqFemale, min.freq=0.05, colors=brewer.pal(6, "Dark2"))
+wordcloud(names(freqUnknown), freqUnknown, min.freq=0.05, colors=brewer.pal(6, "Dark2"))
 
-wordcloud(names(freq), freq, max.words=50, colors=brewer.pal(6, "Dark2"))
+wordcloud(names(freq), freq, max.words=40)
+
+wordcloud(names(freq), freq, max.words=20, colors=brewer.pal(6, "Dark2"))
 wordcloud(names(freqMale), freq, max.words=50, colors=brewer.pal(6, "Dark2"))
 wordcloud(names(freqFemale), freq, max.words=50, colors=brewer.pal(6, "Dark2"))
 wordcloud(names(freqUnknown), freq, max.words=50, colors=brewer.pal(6, "Dark2"))

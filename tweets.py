@@ -200,12 +200,12 @@ print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 norm = None
-use_idf = False
+use_idf = True
 min_df = 1
 max_df = 1
 sublinear_tf = False
 smooth_idf = True
-max = 2000
+max = 4000
 
 # vec = CountVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
 vec = TfidfVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
