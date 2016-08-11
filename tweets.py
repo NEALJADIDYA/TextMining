@@ -205,15 +205,15 @@ min_df = 1
 max_df = 1
 sublinear_tf = False
 smooth_idf = True
-max = 4000
-
-print("Vectorizer","tfidf","idf",use_idf,"max",max,"tokenizer","tweet","stop_words","true")
+max = 2000
+stop_words=stopwords.words("spanish")#+stopwords.words("english")
 
 # vec = CountVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
-vec = TfidfVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2), stop_words=stopwords.words("spanish"))
+vec = TfidfVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2), stop_words=stop_words)
 # vec = TfidfVectorizer(min_df=min_df, max_df=max_df, norm=norm, use_idf=use_idf, smooth_idf=smooth_idf,
 #                       sublinear_tf=sublinear_tf, #stop_words=stopwords.words("spanish"),
 #                       max_features=max, tokenizer=myTokenizer, ngram_range=(1, 2))
+print("Vectorizer",vec)
 print("Calculating training features matrix...")
 X = vec.fit_transform(tweets_text)
 voca = vec.get_feature_names()
