@@ -1,0 +1,3 @@
+tfidf	stop words	tokenizer	accuracy
+true	no	tweet	52.19
+true	yes	tweet	52.68
