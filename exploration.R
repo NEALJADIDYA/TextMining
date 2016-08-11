@@ -4,7 +4,7 @@
 library(ggplot2)
 library(wordcloud)
 
-data <- read.csv("C:/BigData/TextMining/hispatweets/res.txt", encoding="UTF-8", quote="", sep = "\t", check.names = F)
+data <- read.csv("C:/BigData/TextMining/hispatweets/res2.txt", encoding="UTF-8", quote="", sep = "\t", check.names = F)
 
 head(data[,1:20])
 head(data[,2017:2018])
@@ -38,13 +38,24 @@ femalesort[1:20]
 unknownsort[1:20]
 
 
-head(data[,2001:2016])
-bysex_extra <- by(data[,2001:2016], data$sex, colMeans)
+head(data[,2001:2017])
+bysex_extra <- by(data[,2001:2017], data$sex, colMeans)
 plot(factor(data$sex), data$positive)
 plot(factor(data$sex), data$negative)
 plot(factor(data$sex), data$positive + data$negative)
 plot(data$positive, data$negative)
 
+p <- ggplot(data, aes(factor(data$sex), data$positive))
+p <- p + geom_point(aes())
+p
+
+
+ggplot(data, aes(factor(data$sex), positive)) + 
+  geom_bar(stat = "identity") 
+ggplot(data, aes(factor(data$sex), negative)) + 
+  geom_bar(stat = "identity") 
+
+  
 plot(factor(data$sex), data$number.of.tokens)
 plot(factor(data$sex), data$mean.size.of.tokens)
 plot(factor(data$sex), data$maximum.word)
@@ -56,7 +67,12 @@ plot(factor(data$sex), data$statuses.count)
 plot(factor(data$sex), data$number.of.tokens)
 
 p <- ggplot(data, aes(data$sex, data$positive+data$negative))
-p <- p + geom_point()
+p <- p + geom_boxplot()
+p
+
+head(data[,2001:2017])
+p <- ggplot(data, aes(data$sex, data[,2007]))
+p <- p + geom_boxplot() + ylab("Tamaño medio de frases") + xlab("Sexo")
 p
 
 bycountry <- by(data[,1:2000], data$country, colMeans)

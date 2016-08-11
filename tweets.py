@@ -3,6 +3,7 @@ import json
 import re
 import numpy
 import sys
+import gc
 
 from prettytable import PrettyTable
 
@@ -55,7 +56,7 @@ def get_lexicon_dict(file):
 
 
 def myTokenizer(text):
-    tknzr1 = TweetTokenizer(strip_handles=True, reduce_len=True, preserve_case=False)
+    tknzr1 = TweetTokenizer(strip_handles=True, reduce_len=True, preserve_case=True)
     return tknzr1.tokenize(text)
     # return r.findall(text)
 
@@ -192,13 +193,6 @@ print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 
-test_data = get_user_data("test.txt")
-test_size = len(test_data)
-print("Test size is", test_size)
-test_tweets_text, test_user_last_tweet_metadata, test_user_sentence_size_mean = get_all_tweets(test_data)
-print("--- %s seconds ---" % (time.time() - start_time))
-print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
-
 norm = None
 use_idf = True
 min_df = 1
@@ -206,10 +200,10 @@ max_df = 1
 sublinear_tf = False
 smooth_idf = True
 max = 2000
-stop_words=stopwords.words("spanish")#+stopwords.words("english")
+stop_words=stopwords.words("spanish")+stopwords.words("english")
 
 # vec = CountVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
-vec = TfidfVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2), stop_words=stop_words)
+vec = TfidfVectorizer(tokenizer=myTokenizer, max_features=max, ngram_range=(1, 2))
 # vec = TfidfVectorizer(min_df=min_df, max_df=max_df, norm=norm, use_idf=use_idf, smooth_idf=smooth_idf,
 #                       sublinear_tf=sublinear_tf, #stop_words=stopwords.words("spanish"),
 #                       max_features=max, tokenizer=myTokenizer, ngram_range=(1, 2))
@@ -239,6 +233,17 @@ print("The final features matrix has shape", X.shape)
 print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
+
+# Run garbage collector
+gc.collect()
+
+
+test_data = get_user_data("test.txt")
+test_size = len(test_data)
+print("Test size is", test_size)
+test_tweets_text, test_user_last_tweet_metadata, test_user_sentence_size_mean = get_all_tweets(test_data)
+print("--- %s seconds ---" % (time.time() - start_time))
+print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 
 print("Calculating test features matrix...")

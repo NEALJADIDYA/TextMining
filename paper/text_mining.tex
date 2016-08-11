@@ -2,6 +2,7 @@
 \usepackage{acl2015}
 \usepackage{url}
 \usepackage{latexsym}
+\usepackage{graphicx}
 
 \title{Asignatura Text Mining II\\
 M\'aster/Diploma Big Data Analytics}
@@ -15,7 +16,7 @@ M\'aster/Diploma Big Data Analytics}
 \maketitle
 \begin{abstract}
   
-  La aproximaci\'on al problema de Text Mining para Author Profiling ha tenido como base la t\'ecnica conocida por {\em bag of words}. Esta t\'ecnica emplea modelos para aprender el vocabul\'ario de un conjunto de documentos, a trav\'es del que se construye una representaci\'on de los datos en forma de matriz, adecuada para aplicar machine learning. A la matriz de vocabulario se han a\~nadido otras caracter\'isticas, como contadores de polaridad de sentimientos y determinadas estad\'isticas del texto de los documentos. El metadata de los tweets se ha usado también para reforzar las caracter\'isticas de la matriz.
+  La aproximaci\'on al problema de {\em Text Mining} para {\em Author Profiling} ha tenido como base la t\'ecnica conocida por {\em bag of words}. Esta t\'ecnica emplea modelos para aprender el vocabul\'ario de un conjunto de documentos, a trav\'es del que se construye una representaci\'on de los datos en forma de matriz, adecuada para aplicar {\em machine learning}. A la matriz de vocabulario se han a\~nadido otras caracter\'isticas, como contadores de polaridad de sentimientos y determinadas estad\'isticas del texto de los documentos. El metadata de los tweets se ha usado también para reforzar las caracter\'isticas de la matriz.
   
   El modelo usado para el aprendizaje del vocabul\'ario se basa en contadores de palabras, calculando un coheficiente de tipo TF-IDF. Se ha configurado el modelo con un máximo de 2000 caracter\'isticas, que se traduce en el c\'alculo de las 2000 palabras más significativas en el corpus de entrenamiento. Para la divisi\'on de los documentos en trozos ({\em tokens}) se han aplicado {\em tokenizers} especializados en texto de Twitter.
   
@@ -26,16 +27,49 @@ M\'aster/Diploma Big Data Analytics}
 
 \section{Introducci\'on}
 
-  La exploraci\'on de datos de lenguage natural permite descubrir características de los autores basadas en los patrones de escrita. El objectivo de este ejercicio es explorar la informaci\'on de un dataset constitu\'ido por tweets de varios usuarios de distintos pa\'ises de habla hisp\'anica, con el intuito de crear un modelo para inferir sus características (sexo y pa\'is).
+  La exploraci\'on de datos de lenguage natural permite descubrir caracter\'sticas de los autores basadas en sus patrones de escrita. El objectivo de este ejerc\'icio es explorar la informaci\'on de un dataset constitu\'ido por tweets de varios usuarios de distintos pa\'ises de habla hisp\'anica, con el intuito de crear un modelo clasificador de perfiles de sexo y pa\'is.
   
-   
-
-  Breve introducci\'on al problema de Author Profiling y concretamente al presentado en clase. En este apartado el alumno deber\'a resumir en qu\'e consiste el problema y ponerlo en perspectiva para que el lector comprenda los siguientes apartados.
+  Determinados patrones de escrita pueden mostrar ind\'icios de perfiles. Por ejemplo, los hombres tienen tendencia a usar m\'as determinantes y adjectivos que las mujeres; y las mujeres suelen usar m\'as pronombres y la negaci'on. En general, las mujeres tienen tendencia a demostrar m\'as carga emocional en sus frases que los hombres. M\'etricas como el tamaño de las frases pueden eventualmente ser significativas tambi\'en. Adem\'as, hay que tener en cuenta los usuarios corporativos, cuya escrita ser\'a diferente de la de otros perfiles, probablemente m\'as formal.
+  
+  De la misma forma, los perfiles de pa\'ises obedecen a patrones de escrita, con elementos significativos como el uso de modismos y otras variaciones lengu\'isticas. 
+  
+  El corpus de texto se usa para aprender el vocabul\'ario significativo y luego aplicar t\'ecnicas de {\em machine learning}, que se encargar\'an de encontrar patrones y correlaciones para generar un modelo matem\'tico. Los datos sirven como mat\'eria prima, a la que se aplican herramientas para crear nuevo conocimiento.
 
 
 \section{Dataset}
 
-Estad\'isticas del dataset que el alumno considere importantes. En clase se han visto las estad\'isticas b\'asicas del dataset y se ha explorado para obtener caracter\'isticas m\'as avanzadas. En este apartado el alumno tiene total libertad para exponer las tablas o gr\'aficas que considere apropiadas para describir el dataset, tanto desde un punto de vista ling¨u\'istico como de big data. 
+  El dataset de este ejerc\'icio est\'a constitu\'ido por cientos de tweets de usuarios de 7 pa\'ises de habla hisp\'anica. Cada pa\'is tiene tweets de 650 usuarios y cada usuario tiene entre 600 y 1000 tweets. 
+  
+  El conjunto de entrenamiento cuenta con datos de 2730 usuarios previamente clasificados en sexo y pa\'is. En total hay 2.616.338 tweets, que constituye el corpus para calcular el vocabulario. El conjunto de test tiene 1820 usuarios y respectiva clasificaci\'on, con un total de tweets de 1.741.060. El volumen de datos es bastante grande y de c\'omputo exigente: en una m\'aquina con 4GB de RAM y un procesador i3, el c\'alculo del vocabulario para solamente 2000 palabras tarda m\'as de 10 minutos.
+  
+  Se ha realizado un breve an\'alisis estad\'istico sobre la matriz de {\em bag of words} con R, cuyos resultados se presentan a continuaci\'on. El gr\'afico siguiente representa las palabras y s\'imbolos con mayor coeficiente TF-IDF:
+  
+  \begin{figure}[ht!]
+    \includegraphics[width=\linewidth]{most_used_words.png}
+    \caption{Palabras con mayor coeficiente TD-IDF.}
+    \label{fig:most_used_words}
+  \end{figure}
+  
+  Se verifica que las palabras m\'as significativas son tambi\'en las m\'as usuales.
+  
+  En un breve an\'alisis de sentimientos (positivo y negativo), se puede ver que la media es ligeramente superior en las mujeres.
+  
+  \begin{figure}[ht!]
+    \includegraphics[width=\linewidth]{sentiment.png}
+    \caption{Sentimiento.}
+    \label{fig:sentiment}
+  \end{figure}
+  
+  El tama\~no medio de frases muestra que los hombres escriben frases m\'as largas:
+
+  \begin{figure}[ht!]
+    \includegraphics[width=\linewidth]{sentence_mean.png}
+    \caption{Tama\~no medio de frases.}
+    \label{fig:sentence_mean}
+  \end{figure}
+  
+  
+  Estad\'isticas del dataset que el alumno considere importantes. En clase se han visto las estad\'isticas b\'asicas del dataset y se ha explorado para obtener caracter\'isticas m\'as avanzadas. En este apartado el alumno tiene total libertad para exponer las tablas o gr\'aficas que considere apropiadas para describir el dataset, tanto desde un punto de vista ling¨u\'istico como de big data. 
 
 
 \section{Propuesta del alumno}
