@@ -39,6 +39,7 @@ unknownsort[1:20]
 
 
 head(data[,2001:2017])
+str(data[,2001:2017])
 bysex_extra <- by(data[,2001:2017], data$sex, colMeans)
 plot(factor(data$sex), data$positive)
 plot(factor(data$sex), data$negative)
@@ -74,6 +75,25 @@ head(data[,2001:2017])
 p <- ggplot(data, aes(data$sex, data[,2007]))
 p <- p + geom_boxplot() + ylab("Tamaño medio de frases") + xlab("Sexo")
 p
+
+
+# Colors
+head(data[,2013:2017])
+str(data[,2013:2017])
+
+as.hexmode(8045550)
+
+ggplot(data, aes(data$sex, profile_sidebar_border_color)) + 
+  geom_point(aes(color = profile_sidebar_border_color)) 
+ggplot(data, aes(data$sex, profile_background_color)) + 
+  geom_point(aes(color = profile_background_color)) 
+ggplot(data, aes(data$sex, profile_link_color)) + 
+  geom_point(aes(color = profile_link_color)) 
+ggplot(data, aes(data$sex, profile_text_color)) + 
+  geom_point(aes(color = profile_text_color)) 
+ggplot(data, aes(data$sex, profile_sidebar_fill_color)) + 
+  geom_point(aes(color = profile_sidebar_fill_color)) 
+
 
 bycountry <- by(data[,1:2000], data$country, colMeans)
 argentinasort <- sort(bycountry$argentina, decreasing = T)

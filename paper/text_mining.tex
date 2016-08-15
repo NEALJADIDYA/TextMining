@@ -16,7 +16,7 @@ M\'aster/Diploma Big Data Analytics}
 \maketitle
 \begin{abstract}
   
-  La aproximaci\'on al problema de {\em Text Mining} para {\em Author Profiling} ha tenido como base la t\'ecnica conocida por {\em bag of words}. Esta t\'ecnica emplea modelos para aprender el vocabul\'ario de un conjunto de documentos, a trav\'es del que se construye una representaci\'on de los datos en forma de matriz, adecuada para aplicar {\em machine learning}. A la matriz de vocabulario se han a\~nadido otras caracter\'isticas, como contadores de polaridad de sentimientos y determinadas estad\'isticas del texto de los documentos. El metadata de los tweets se ha usado también para reforzar las caracter\'isticas de la matriz.
+  La aproximaci\'on al problema de {\em Text Mining} para {\em Author Profiling} ha tenido como base la t\'ecnica conocida por {\em bag of words}. Esta t\'ecnica emplea modelos para aprender el vocabul\'ario de un conjunto de documentos, a trav\'es del que se construye una representaci\'on de los datos en forma de matriz, adecuada para aplicar {\em machine learning}. A la matriz de vocabulario se han a\~nadido otras caracter\'isticas, como contadores de polaridad de sentimientos y determinadas estad\'isticas del texto de los documentos. El {\em metadata} de los tweets se ha usado también para reforzar las caracter\'isticas de la matriz.
   
   El modelo usado para el aprendizaje del vocabul\'ario se basa en contadores de palabras, calculando un coheficiente de tipo TF-IDF. Se ha configurado el modelo con un máximo de 2000 caracter\'isticas, que se traduce en el c\'alculo de las 2000 palabras más significativas en el corpus de entrenamiento. Para la divisi\'on de los documentos en trozos ({\em tokens}) se han aplicado {\em tokenizers} especializados en texto de Twitter.
   
@@ -42,16 +42,14 @@ M\'aster/Diploma Big Data Analytics}
   
   El conjunto de entrenamiento cuenta con datos de 2730 usuarios previamente clasificados en sexo y pa\'is. En total hay 2.616.338 tweets, que constituye el corpus para calcular el vocabulario. El conjunto de test tiene 1820 usuarios y respectiva clasificaci\'on, con un total de tweets de 1.741.060. El volumen de datos es bastante grande y de c\'omputo exigente: en una m\'aquina con 4GB de RAM y un procesador i3, el c\'alculo del vocabulario para solamente 2000 palabras tarda m\'as de 10 minutos.
   
-  Se ha realizado un breve an\'alisis estad\'istico sobre la matriz de {\em bag of words} con R, cuyos resultados se presentan a continuaci\'on. El gr\'afico siguiente representa las palabras y s\'imbolos con mayor coeficiente TF-IDF:
+  Se ha realizado un breve an\'alisis estad\'istico sobre la matriz de {\em bag of words} con R, cuyos resultados se presentan a continuaci\'on. El gr\'afico siguiente representa las palabras y s\'imbolos con mayor coeficiente TF-IDF. Se verifica que las palabras m\'as significativas son tambi\'en las m\'as usuales - este dato ser\'a relevante en el desarrollo del estudio propuesto.
   
   \begin{figure}[ht!]
     \includegraphics[width=\linewidth]{most_used_words.png}
     \caption{Palabras con mayor coeficiente TD-IDF.}
     \label{fig:most_used_words}
   \end{figure}
-  
-  Se verifica que las palabras m\'as significativas son tambi\'en las m\'as usuales.
-  
+    
   En un breve an\'alisis de sentimientos (positivo y negativo), se puede ver que la media es ligeramente superior en las mujeres.
   
   \begin{figure}[ht!]
@@ -60,7 +58,7 @@ M\'aster/Diploma Big Data Analytics}
     \label{fig:sentiment}
   \end{figure}
   
-  El tama\~no medio de frases muestra que los hombres escriben frases m\'as largas:
+  El tama\~no medio de frases muestra que los hombres escriben frases m\'as largas; interesante que el tama\~no medio de las frases de mujeres y desconocido ({\em UNKNOWN}) es parecido:
 
   \begin{figure}[ht!]
     \includegraphics[width=\linewidth]{sentence_mean.png}
@@ -68,9 +66,14 @@ M\'aster/Diploma Big Data Analytics}
     \label{fig:sentence_mean}
   \end{figure}
   
+  El {\em metadata} de los tweets puede contener datos significativos. Se han usado, por ejemplo, sobre todo los colores usados en el perfil de {\em Twitter}. Por ejmplo, en el elemento {\ttfamily profile\_sidebar\_fill\_color}, se pueden identificar algunos patrones:
+   
+  \begin{figure}[ht!]
+    \includegraphics[width=\linewidth]{profile_colors.png}
+    \caption{Colores del perfil de Twitter.}
+    \label{fig:profile_colors}
+  \end{figure}
   
-  Estad\'isticas del dataset que el alumno considere importantes. En clase se han visto las estad\'isticas b\'asicas del dataset y se ha explorado para obtener caracter\'isticas m\'as avanzadas. En este apartado el alumno tiene total libertad para exponer las tablas o gr\'aficas que considere apropiadas para describir el dataset, tanto desde un punto de vista ling¨u\'istico como de big data. 
-
 
 \section{Propuesta del alumno}
 
