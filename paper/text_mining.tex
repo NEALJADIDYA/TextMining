@@ -3,6 +3,7 @@
 \usepackage{url}
 \usepackage{latexsym}
 \usepackage{graphicx}
+\usepackage{indentfirst}
 
 \title{Asignatura Text Mining II\\
 M\'aster/Diploma Big Data Analytics}
@@ -16,33 +17,26 @@ M\'aster/Diploma Big Data Analytics}
 \maketitle
 \begin{abstract}
   
-  La aproximaci\'on al problema de {\em Text Mining} para {\em Author Profiling} ha tenido como base la t\'ecnica conocida por {\em bag of words}. Esta t\'ecnica emplea modelos para aprender el vocabul\'ario de un conjunto de documentos, a trav\'es del que se construye una representaci\'on de los datos en forma de matriz, adecuada para aplicar {\em machine learning}. A la matriz de vocabulario se han a\~nadido otras caracter\'isticas, como contadores de polaridad de sentimientos y determinadas estad\'isticas del texto de los documentos. El {\em metadata} de los tweets se ha usado también para reforzar las caracter\'isticas de la matriz.
-  
-  El modelo usado para el aprendizaje del vocabul\'ario se basa en contadores de palabras, calculando un coheficiente de tipo TF-IDF. Se ha configurado el modelo con un máximo de 2000 caracter\'isticas, que se traduce en el c\'alculo de las 2000 palabras más significativas en el corpus de entrenamiento. Para la divisi\'on de los documentos en trozos ({\em tokens}) se han aplicado {\em tokenizers} especializados en texto de Twitter.
-  
-  Una vez constru\'ida la matriz con todas las caracter\'isticas, se ha elegido un clasificador de tipo RandomForest para entrenar un modelo matem\'atico. Este clasificador es de tipo {\em ensemble}, aplicando varias iteraciones de predicci\'on sobre conjuntos aleat\'orios de los datos, lo que garantiza una mejor generalizaci\'on del modelo.
+  \indent La aproximaci\'on al problema de {\em Text Mining} para {\em Author Profiling} ha tenido como base la t\'ecnica conocida por {\em bag of words}. Esta t\'ecnica emplea modelos para aprender el vocabul\'ario de un conjunto de documentos, a trav\'es del que se construye una representaci\'on de los datos en forma de matriz, adecuada para aplicar {\em machine learning}. A la matriz de vocabulario se han a\~nadido otras caracter\'isticas, como contadores de polaridad de sentimientos y determinadas estad\'isticas del texto de los documentos. El {\em metadata} de los tweets se ha usado también para reforzar las caracter\'isticas de la matriz.\\
+  \indent El modelo usado para el aprendizaje del vocabul\'ario se basa en contadores de palabras, calculando un coheficiente de tipo TF-IDF. Se ha configurado el modelo con un máximo de 2000 caracter\'isticas, que se traduce en el c\'alculo de las 2000 palabras más significativas en el corpus de entrenamiento. Para la divisi\'on de los documentos en trozos ({\em tokens}) se han aplicado {\em tokenizers} especializados en texto de Twitter.\\
+  \indent Una vez constru\'ida la matriz con todas las caracter\'isticas, se ha elegido un clasificador de tipo RandomForest para entrenar un modelo matem\'atico. Este clasificador es de tipo {\em ensemble}, aplicando varias iteraciones de predicci\'on sobre conjuntos aleat\'orios de los datos, lo que garantiza una mejor generalizaci\'on del modelo.
 
 \end{abstract}
 
 
 \section{Introducci\'on}
 
-  La exploraci\'on de datos de lenguage natural permite descubrir caracter\'sticas de los autores basadas en sus patrones de escrita. El objectivo de este ejerc\'icio es explorar la informaci\'on de un dataset constitu\'ido por tweets de varios usuarios de distintos pa\'ises de habla hisp\'anica, con el intuito de crear un modelo clasificador de perfiles de sexo y pa\'is.
-  
-  Determinados patrones de escrita pueden mostrar ind\'icios de perfiles. Por ejemplo, los hombres tienen tendencia a usar m\'as determinantes y adjectivos que las mujeres; y las mujeres suelen usar m\'as pronombres y la negaci'on. En general, las mujeres tienen tendencia a demostrar m\'as carga emocional en sus frases que los hombres. M\'etricas como el tamaño de las frases pueden eventualmente ser significativas tambi\'en. Adem\'as, hay que tener en cuenta los usuarios corporativos, cuya escrita ser\'a diferente de la de otros perfiles, probablemente m\'as formal.
-  
-  De la misma forma, los perfiles de pa\'ises obedecen a patrones de escrita, con elementos significativos como el uso de modismos y otras variaciones lengu\'isticas. 
-  
-  El corpus de texto se usa para aprender el vocabul\'ario significativo y luego aplicar t\'ecnicas de {\em machine learning}, que se encargar\'an de encontrar patrones y correlaciones para generar un modelo matem\'tico. Los datos sirven como mat\'eria prima, a la que se aplican herramientas para crear nuevo conocimiento.
+  \indent La exploraci\'on de datos de lenguage natural permite descubrir caracter\'sticas de los autores basadas en sus patrones de escrita. El objectivo de este ejerc\'icio es explorar la informaci\'on de un dataset constitu\'ido por tweets de varios usuarios de distintos pa\'ises de habla hisp\'anica, con el intuito de crear un modelo clasificador de perfiles de sexo y pa\'is.\\
+  \indent Determinados patrones de escrita pueden mostrar ind\'icios de perfiles. Por ejemplo, los hombres tienen tendencia a usar m\'as determinantes y adjectivos que las mujeres; y las mujeres suelen usar m\'as pronombres y la negaci'on. En general, las mujeres tienen tendencia a demostrar m\'as carga emocional en sus frases que los hombres. M\'etricas como el tamaño de las frases pueden eventualmente ser significativas tambi\'en. Adem\'as, hay que tener en cuenta los usuarios corporativos, cuya escrita ser\'a diferente de la de otros perfiles, probablemente m\'as formal.\\
+  \indent De la misma forma, los perfiles de pa\'ises obedecen a patrones de escrita, con elementos significativos como el uso de modismos y otras variaciones lengu\'isticas. \\
+  \indent El corpus de texto se usa para aprender el vocabul\'ario significativo y luego aplicar t\'ecnicas de {\em machine learning}, que se encargar\'an de encontrar patrones y correlaciones para generar un modelo matem\'tico. Los datos sirven como mat\'eria prima, a la que se aplican herramientas para crear nuevo conocimiento.
 
 
 \section{Dataset}
 
-  El dataset de este ejerc\'icio est\'a constitu\'ido por cientos de tweets de usuarios de 7 pa\'ises de habla hisp\'anica. Cada pa\'is tiene tweets de 650 usuarios y cada usuario tiene entre 600 y 1000 tweets. 
-  
-  El conjunto de entrenamiento cuenta con datos de 2730 usuarios previamente clasificados en sexo y pa\'is. En total hay 2.616.338 tweets, que constituye el corpus para calcular el vocabulario. El conjunto de test tiene 1820 usuarios y respectiva clasificaci\'on, con un total de tweets de 1.741.060. El volumen de datos es bastante grande y de c\'omputo exigente: en una m\'aquina con 4GB de RAM y un procesador i3, el c\'alculo del vocabulario para solamente 2000 palabras tarda m\'as de 10 minutos.
-  
-  Se ha realizado un breve an\'alisis estad\'istico sobre la matriz de {\em bag of words} con R, cuyos resultados se presentan a continuaci\'on. El gr\'afico siguiente representa las palabras y s\'imbolos con mayor coeficiente TF-IDF. Se verifica que las palabras m\'as significativas son tambi\'en las m\'as usuales - este dato ser\'a relevante en el desarrollo del estudio propuesto.
+  \indent El dataset de este ejerc\'icio est\'a constitu\'ido por cientos de tweets de usuarios de 7 pa\'ises de habla hisp\'anica. Cada pa\'is tiene tweets de 650 usuarios y cada usuario tiene entre 600 y 1000 tweets. \\
+  \indent El conjunto de entrenamiento cuenta con datos de 2730 usuarios previamente clasificados en sexo y pa\'is. En total hay 2.616.338 tweets, que constituye el corpus para calcular el vocabulario. El conjunto de test tiene 1820 usuarios y respectiva clasificaci\'on, con un total de tweets de 1.741.060. El volumen de datos es bastante grande y de c\'omputo exigente: en una m\'aquina con 4GB de RAM y un procesador i3, el c\'alculo del vocabulario para solamente 2000 palabras tarda m\'as de 10 minutos.\\  
+  \indent Se ha realizado un breve an\'alisis estad\'istico sobre la matriz de {\em bag of words} con R, cuyos resultados se presentan a continuaci\'on. El gr\'afico siguiente representa las palabras y s\'imbolos con mayor coeficiente TF-IDF. Se verifica que las palabras m\'as significativas son tambi\'en las m\'as usuales - este dato ser\'a relevante en el desarrollo del estudio propuesto.
   
   \begin{figure}[ht!]
     \includegraphics[width=\linewidth]{most_used_words.png}
@@ -77,7 +71,12 @@ M\'aster/Diploma Big Data Analytics}
 
 \section{Propuesta del alumno}
 
-Descripci\'on de la propuesta. Qu\'e caracter\'isticas se han utilizado y cu\'al ha sido la hip\'otesis para elegirlas. En clase se ha visto la construcci\'on de una baseline basada en bolsa de palabras. En este apartado el alumno expondr\'a las mejoras propuestas.
+  \indent La t\'ecnica {\em bag of words} ha dado un {\em baseline} para acercar el problema. Esta t\'ecnica se basa sencillamente en contadores de palabras, en su concepto. Sin embargo, se puede customizar la forma de contar (acumulador, cuoficiente, bin\'ario), la forma de separar los componentes del texto, el n\'umero m\'aximo de palabras del vocabulario o conjuntos de varias palabras. Las decisiones de configuraci\'on se describen a continuaci\'on.\\
+  \indent Se ha usado un {\em tokenizer} especializado en texto de tweets ({\ttfamily TweetTokenizer}, del paquete {\em NLTK}), que ofrece opciones de ignorar referencias a otros usuarios y reducir las repeticiones de texto. Se ha usado tambi\'en la opci\'on de tratamiento {\em case-sensititve}, por poder ser significativo en la distinci\'on de g\'enero.\\
+  \indent La transformaci\'on de los datos en caracter\'isticas num\'ericas adecuadas para {\em machine learning} es un \'area conocido por {\em feature extraction}; en el caso de {\em bag of words} el proceso es de vectorizaci\'on, generando un vector de caracter\'isticas. Para esta tarea se ha usado la clase {\ttfamily TfidfVectorizer}, que implementa la separaci\'on en {\em tokens} y el c\'alculo de frecuencias, así como la normalizaci\'on y atribuci\'on de pesos de importancia a las palabras. Se ha configurado el modelo para generar una matriz de caracter\'isticas de cuoficientes TF-IDF.\\
+  \indent El aprendizaje del vocabulario es una tarea intensiva para CPU y memoria, directamente proporcional al numero de caracter\'isticas/palabras del vector generado. Se ha configurado el modelo para un m\'aximo de 2000 palabras, que presentaba rendimiento y resultados aceptables. Sin embargo, se han realizado pruebas y se ha verificado que los resultados de predicci\'on son mejores con mayor numero de caracter\'isticas, a coste de mayor tiempo de ejecuci\'on. Otra configuraci\'on importante es el rango de {\em ngrams}, que son conjuntos de palabras consecutivas. Se ha aplicado el rango de 1 a 2 palabras, con lo que se han mejorado los resultados.\\
+  \indent Determinadas palabras son muy comunes y aparentemente aportan poco significado, como es el caso de art\'iculos y preposiciones, como `de`, `la`, `para`. Estas palabras se llaman {\em stop words}. La clase {\ttfamily TfidfVectorizer} ofrece la posibilidad de usar una lista de {\em stop words} y el paquete {\em NLTK} tiene listas pre-determinadas para varias lenguas.  Se ha probado con esa configuraci\'on y no se han obtenido mejoras, probablemente porque son palabras significativas en la escrita de hombres y mujeres - por ejemplo, las mujeres usan m\'as art\'iculos que los hombres. As\'i que se ha decidido no usar {\em stop words}.
+  
 
 \section{Resultados experimentales}
 
