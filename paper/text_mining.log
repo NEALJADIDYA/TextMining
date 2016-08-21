@@ -1,0 +1,265 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.8.8)  21 AUG 2016 23:07
+entering extended mode
+**C:/BigData/TextMining/hispatweets/paper/text_mining.tex
+(C:/BigData/TextMining/hispatweets/paper/text_mining.tex
+LaTeX2e <2014/05/01>
+Babel <3.9l> and hyphenation patterns for 68 languages loaded.
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\article.cls"
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\size11.clo"
+File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (acl2015.sty
+Conference Style for ACL 2015 -- released December 7, 2014
+\titlebox=\skip43
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\url\url.sty"
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\latexsym.sty"
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\indentfirst.sty"
+Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
+)
+(text_mining.aux
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+ ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count88
+\scratchdimen=\dimen105
+\scratchbox=\box26
+\nofMPsegments=\count89
+\nofMParguments=\count90
+\everyMPshowfont=\toks15
+\MPscratchCnt=\count91
+\MPscratchDim=\dimen106
+\MPnumerator=\count92
+\makeMPintoPDFobject=\count93
+\everyMPtoPDFconversion=\toks16
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 17.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 17.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 17.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 17.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ulasy.fd"
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¡ in font cmr10!
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ± in font cmr10!
+ [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+
+
+
+]
+<most_used_words.png, id=9, 371.13657pt x 267.24844pt>
+File: most_used_words.png Graphic file (type png)
+
+<use most_used_words.png>
+Package pdftex.def Info: most_used_words.png used on input line 42.
+(pdftex.def)             Requested size: 219.08612pt x 157.76085pt.
+ <sentiment.png, id=10, 371.13657pt x 247.67531pt>
+File: sentiment.png Graphic file (type png)
+
+<use sentiment.png>
+Package pdftex.def Info: sentiment.png used on input line 50.
+(pdftex.def)             Requested size: 219.08612pt x 146.20653pt.
+ <sentence_mean.png, id=11, 371.13657pt x 247.67531pt>
+File: sentence_mean.png Graphic file (type png)
+
+<use sentence_mean.png>
+Package pdftex.def Info: sentence_mean.png used on input line 58.
+(pdftex.def)             Requested size: 219.08612pt x 146.20653pt.
+
+Underfull \hbox (badness 2126) in paragraph at lines 63--64
+[]\OT1/cmr/m/n/10.95 El \OT1/cmr/m/it/10.95 meta-data \OT1/cmr/m/n/10.95 de los
+ tweets puede con-
+ []
+
+
+Underfull \hbox (badness 1014) in paragraph at lines 63--64
+\OT1/cmr/m/n/10.95 en el per-fil de \OT1/cmr/m/it/10.95 Twit-ter\OT1/cmr/m/n/10
+.95 . Por ejm-plo, en
+ []
+
+<profile_colors.png, id=12, 371.13657pt x 247.67531pt>
+File: profile_colors.png Graphic file (type png)
+
+<use profile_colors.png>
+Package pdftex.def Info: profile_colors.png used on input line 66.
+(pdftex.def)             Requested size: 219.08612pt x 146.20653pt.
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ­ in font cmr10!
+
+Underfull \hbox (badness 3009) in paragraph at lines 74--80
+[]\OT1/cmr/m/n/10.95 El apren-dizaje del vo-cab-u-lario es una
+ []
+
+[2 <./most_used_words.png> <./sentiment.png> <./sentence_mean.png> <./profile_c
+olors.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 86.
+
+Underfull \hbox (badness 1122) in paragraph at lines 109--113
+[]\OT1/cmr/m/n/10.95 La in-clusion de in-for-macion ex-tra (sen-
+ []
+
+
+Underfull \hbox (badness 6157) in paragraph at lines 109--113
+\OT1/cmr/m/n/10.95 timiento y meta-data) en el vec-tor de
+ []
+
+
+Underfull \hbox (badness 3199) in paragraph at lines 109--113
+[]\OT1/cmr/m/n/10.95 El metodo de \OT1/cmr/m/it/10.95 Ran-dom For-est \OT1/cmr
+/m/n/10.95 ha de-
+ []
+
+
+Underfull \hbox (badness 1286) in paragraph at lines 109--113
+\OT1/cmr/m/n/10.95 clasi-fi-cadores, como gau-sianas. El he-cho
+ []
+
+
+Underfull \hbox (badness 1990) in paragraph at lines 109--113
+\OT1/cmr/m/n/10.95 bas-tante, al en-tre-nar var-ios mod-e-los con
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--113
+
+ []
+
+[3]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 127.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 127.
+
+Underfull \hbox (badness 6493) in paragraph at lines 125--128
+[]\OT1/cmr/m/n/10 Kaggle.  \OT1/cmr/m/it/10 Part 1: For Be-gin-ners - Bag
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--128
+\OT1/cmr/m/it/10 of Words  $\OT1/cmtt/m/n/10 https : / / www . kaggle . com /$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--128
+$\OT1/cmtt/m/n/10 c / word2vec-[]nlp-[]tutorial / details /$
+ []
+
+
+Underfull \hbox (badness 2096) in paragraph at lines 129--132
+[]\OT1/cmr/m/n/10 Scikit-learn.  \OT1/cmr/m/it/10 1. Su-per-vised learn-ing  $\
+OT1/cmtt/m/n/10 http :$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 129--132
+$\OT1/cmtt/m/n/10 / / scikit-[]learn . org / stable / supervised _$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 133--136
+$\OT1/cmtt/m/n/10 http : / / www . nltk . org / api / nltk . tokenize .$
+ []
+
+[4
+
+] (text_mining.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 1305 strings out of 493698
+ 17311 string characters out of 3144413
+ 80922 words of memory out of 3000000
+ 4645 multiletter control sequences out of 15000+200000
+ 10143 words of font info for 41 fonts, out of 3000000 for 9000
+ 1025 hyphenation exceptions out of 8191
+ 27i,9n,19p,738b,296s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on text_mining.pdf (4 pages, 107448 bytes).
+PDF statistics:
+ 43 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+
