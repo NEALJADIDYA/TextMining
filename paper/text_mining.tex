@@ -17,7 +17,7 @@ M\'aster/Diploma Big Data Analytics}
 \maketitle
 \begin{abstract}
 
-  \indent La aproximaci\'on al problema de {\em Text Mining} para {\em Author Profiling} ha tenido como base la t\'ecnica conocida por {\em bag of words}. Esta t\'ecnica emplea modelos para aprender el vocabul\'ario de un conjunto de documentos, a trav\'es del que se construye una representaci\'on de los datos en forma de matriz, adecuada para aplicar {\em machine learning}. A la matriz de vocabulario se han a\~nadido otras caracter\'isticas, como contadores de polaridad de sentimientos y determinadas estad\'isticas del texto de los documentos. El {\em metadata} de los tweets se ha usado tambi\'en para reforzar las caracter\'isticas de la matriz.\\
+  \indent La aproximaci\'on al problema de {\em Text Mining} para {\em Author Profiling} ha tenido como base la t\'ecnica conocida por {\em bag of words}. Esta t\'ecnica es un modelo que aprende el vocabul\'ario de un conjunto de documentos, a trav\'es del que se construye una representaci\'on de los datos en forma de matriz, adecuada para aplicar {\em machine learning}. A la matriz de vocabulario se han a\~nadido otras caracter\'isticas, como contadores de polaridad de sentimientos y determinadas estad\'isticas del texto de los documentos. El {\em metadata} de los tweets se ha usado tambi\'en para reforzar las caracter\'isticas de la matriz.\\
   \indent El modelo usado para el aprendizaje del vocabul\'ario se basa en contadores de palabras, calculando un coheficiente de tipo TF-IDF. Se ha configurado el modelo con un m\'aximo de 2000 caracter\'isticas, que se traduce en el c\'alculo de las 2000 palabras más significativas en el corpus de entrenamiento. Para la divisi\'on de los documentos en trozos ({\em tokens}) se han aplicado {\em tokenizers} especializados en texto de Twitter.\\
   \indent Una vez constru\'ida la matriz con todas las caracter\'isticas, se ha elegido un clasificador de tipo RandomForest para entrenar un modelo matem\'atico. Este clasificador es de tipo {\em ensemble}, aplicando varias iteraciones de predicci\'on sobre conjuntos aleat\'orios de los datos, lo que garantiza una mejor generalizaci\'on del modelo.
 
@@ -106,10 +106,10 @@ M\'aster/Diploma Big Data Analytics}
     \end{center}
   
   
-  \indent Los resultados obtenidos para la predicci\'on de g\'enero de los usuarios ha tenido peores resultados que para la predicci\'on del pa\'is. Se verifica as\'i que las variaciones de la lengua castellana en los distintos pa\'ises son m\'as significativas que las variaciones entre hombre y mujeres. La presencia de la etiqueta `UNKNOWN` (instituciones, por ejemplo) puede dificultar esta tarea. \\
+  \indent Los resultados obtenidos para la predicci\'on de g\'enero de los usuarios han sido peores que para la predicci\'on del pa\'is. Se verifica as\'i que las variaciones de la lengua castellana en los distintos pa\'ises son m\'as significativas que las variaciones entre hombre y mujeres. La presencia de la etiqueta `UNKNOWN` (instituciones, por ejemplo) puede dificultar esta tarea. \\
   \indent El vocabulario con {\em stop words} (palabras comunes) mejora un poco los resultados - como descrito anteriormente, puede ser significativo para distinguir la escrita de hombres y mujeres. \\
-  \indent La inclusi\'on de informaci\'on extra (sentimiento y metadata) en el vector de caracter\'isticas ha tenido efectos importantes. En la predicci\'on de sexo, por ejemplo, la mejora fue de la orden del 10\%. \\
-  \indent El m\'etodo de {\em Random Forest} ha demostrado mejores resultados respecto a otros clasificadores, como gausianas. El hecho de ser una t\'ecnica de {\em ensemble} contribuye bastante, al entrenar varios modelos con sub-conjuntos de datos. Sin embargo, esta t\'ecnica exige m\'as tiempo de ejecuci\'on.\\
+  \indent La inclusi\'on de informaci\'on extra (sentimiento y metadata) en el vector de caracter\'isticas ha tenido efectos considerables. En la predicci\'on de sexo, por ejemplo, la mejora fue de la orden del 10\%. \\
+  \indent El m\'etodo de {\em Random Forest} ha demostrado mejores resultados respecto a otros clasificadores, como gausianas. El hecho de ser una t\'ecnica de {\em ensemble} contribuye bastante, al entrenar varios \'arboles con sub-conjuntos de datos. Sin embargo, esta t\'ecnica exige m\'as tiempo de ejecuci\'on.\\
 
 
 \section{Conclusiones y trabajo futuro}
