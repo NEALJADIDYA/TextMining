@@ -264,6 +264,8 @@ print("The final test features matrix has shape", test_X.shape)
 print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
+
+print("*** Sex prediction ***")
 y = numpy.array([sex for (user, country, sex) in training_data][0:])
 print("Target",y)
 
@@ -290,6 +292,34 @@ print("--- %s seconds ---" % (time.time() - start_time))
 print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
 
 
+print("*** Country prediction ***")
+y = numpy.array([country for (user, country, sex) in training_data][0:])
+print("Target",y)
+
+# clf = svm.SVC()
+clf = RandomForestClassifier(n_estimators=100)
+clf.fit(X, y)
+
+preds = clf.predict(test_X)
+print("Predictions",preds)
+
+f = open("preds"+str(time.time())+".txt","w",encoding="utf-8")
+for p in preds:
+    f.write(p + ";")
+f.write("\n")
+f.close()
+
+test_y = numpy.array([country for (user, country, sex) in test_data][0:])
+
+print("Test target",test_y)
+print("There are ", (test_y != preds).sum(), "wrong predictions out of", len(test_y))
+print("Accuracy:", (100.0 * (test_y == preds).sum()) / test_X.shape[0])
+
+print("--- %s seconds ---" % (time.time() - start_time))
+print("--- %.2f minutes ---" % ((time.time() - start_time)/60))
+
+
+print("Saving features matrix")
 f = open("results"+str(time.time())+".txt","w",encoding="utf-8")
 
 # write header: vocabulary
@@ -333,15 +363,3 @@ for x in X:
 
 f.close()
 
-
-# TODO:
-# check most used words by class
-# clean dictionaries (remove http, https, ...)
-# improve dictionaries (existance of domains, eg: .co)
-# combination between model and feature engineering
-# graphical analysis:
-## mean followers by country
-## mean hashtags by user
-## mean word size by user
-## mean tweet size by user
-# use sentiment
