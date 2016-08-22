@@ -77,6 +77,8 @@ M\'aster/Diploma Big Data Analytics}
 
 \section{Propuesta del alumno}
 
+  TODO: se acumula texto de los docs de cada user
+
   La t\'ecnica {\em bag of words} ha dado un {\em baseline} para acercar el problema. Esta t\'ecnica se basa sencillamente en contadores de palabras, en su concepto. Sin embargo, se puede customizar la forma de contar (acumulador, cuoficiente, bin\'ario), la forma de separar los componentes del texto, el n\'umero m\'aximo de palabras del vocabulario o conjuntos de varias palabras. Las decisiones de configuraci\'on se describen a continuaci\'on.
 
   Se ha usado un {\em tokenizer} especializado en texto de tweets ({\ttfamily TweetTokenizer}, del paquete {\em NLTK}), que ofrece opciones de ignorar referencias a otros usuarios y reducir las repeticiones de texto. Se ha usado tambi\'en la opci\'on de tratamiento {\em case-sensititve}, por poder ser significativo en la distinci\'on de g\'enero.
@@ -86,6 +88,7 @@ M\'aster/Diploma Big Data Analytics}
   El aprendizaje del vocabulario es una tarea intensiva para CPU y memoria, directamente proporcional al numero de caracter\'isticas/palabras del vector generado. Se ha configurado el modelo para un m\'aximo de 2000 palabras, que presentaba rendimiento y resultados aceptables. Sin embargo, se han realizado pruebas y se ha verificado que los resultados de predicci\'on son mejores con mayor numero de caracter\'isticas, a coste de mayor tiempo de ejecuci\'on. Otra configuraci\'on importante es el rango de {\em ngrams}, que son conjuntos de palabras consecutivas. Se ha aplicado el rango de 1 a 2 palabras, con lo que se han mejorado los resultados.
 
   Determinadas palabras son muy comunes y aparentemente aportan poco significado, como es el caso de art\'iculos y preposiciones, como `de`, `la`, `para`. Estas palabras se llaman {\em stop words}. La clase {\ttfamily TfidfVectorizer} ofrece la posibilidad de usar una lista de {\em stop words} y el paquete {\em NLTK} tiene listas pre-determinadas para varias lenguas.  Se ha probado con esa configuraci\'on y no se han obtenido mejoras, probablemente porque son palabras significativas en la escrita de hombres y mujeres - por ejemplo, las mujeres usan m\'as art\'iculos que los hombres. As\'i que se ha decidido no usar {\em stop words}.
+
   Con el vector num\'erico generado y los datos de training etiquetados para sexo y pa\'is, ya se pueden aplicar algoritmos de aprendizaje supervisado. Para esta tarea, se ha usado un clasificador de tipo {\em Random Forest}, en particular {\ttfamily RandomForestClassifier} de {\em scikit-learn}. Este clasificador es una t\'ecnica de {\em ensemble}, que entrena varios \'arboles de decisi\'on con sub-conjuntos del {\em dataset} para as\'i obtener un mejor acierto y prevenir el sobre-ajuste.
 
 
@@ -131,7 +134,9 @@ M\'aster/Diploma Big Data Analytics}
 
   El procesamiento de lenguage natural puede ser una tarea compleja. Hay variaciones en la escrita de la misma persona, errores ortogr\'aficos o palabras con repeticiones para dar enfasis (por ejemplo, `noooooo`); los sentimientos manifestados pueden ser amb\'iguos; la iron\'ia es dif\'icil de detectar. 
 
-  La predicci\'on de sexo no tiene tan buenos resultados como la de pa\'is. Probablemente el an\'alisis de sentimientos podr\'ia ayudar en ese sentido, por lo que necesitar\'ia una explotaci\'on m\'as profunda. Igualmente, otros elementos de metadata podr\'ian haber sido usados.
+  La predicci\'on de sexo no tiene tan buenos resultados como la de pa\'is. Probablemente el an\'alisis de sentimientos podr\'ia ayudar en ese sentido, por lo que necesitar\'ia una explotaci\'on m\'as profunda. Igualmente, otros elementos de metadata podr\'ian haber sido estudiados y utilizados. 
+
+  Respecto al metadata, los campos {\ttfamily name} y {\ttfamily description} se han inclu\'ido en el corpus de entrenamiento, esperando encontrar alguna correlaci\'on con el g\'enero del usuario. Se ha verificado que la mejora no ha sido significativa. En una implementaci\'on futura, estos campos se podr\'ian usar como caracter\'isticas en vez de inclu\'irlos en el texto de los docuemtos. TODO
 
   El uso de mayor n\'umero de caracter\'isticas de vocabulario podr\'ia ser una mejora futura, para lo que har\'ia falta mayor capacidad de computo.
 
