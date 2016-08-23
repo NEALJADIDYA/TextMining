@@ -89,7 +89,7 @@ M\'aster/Diploma Big Data Analytics}
 
   Determinadas palabras son muy comunes y aparentemente aportan poco significado, como es el caso de art\'iculos y preposiciones, como ``de``, ``la``, ``para``. Estas palabras se llaman {\em stop words}. La clase {\tt TfidfVectorizer} ofrece la posibilidad de usar una lista de {\em stop words} y el paquete {\em NLTK} tiene listas pre-determinadas para varias lenguas.  Se ha probado con esa configuraci\'on y no se han obtenido mejoras, probablemente porque son palabras significativas en la escrita de hombres y mujeres - por ejemplo, las mujeres usan m\'as art\'iculos que los hombres. As\'i que se ha decidido no usar {\em stop words}.
 
-  Con el vector num\'erico generado y los datos de training etiquetados para sexo y pa\'is, ya se pueden aplicar algoritmos de aprendizaje supervisado. Para esta tarea, se ha usado un clasificador de tipo {\em Random Forest}, en particular {\tt RandomForestClassifier} de {\em scikit-learn}. Este clasificador es una t\'ecnica de {\em ensemble}, que entrena varios \'arboles de decisi\'on con sub-conjuntos del {\em dataset} para as\'i obtener un mejor acierto y prevenir el sobre-ajuste.
+  Con el vector num\'erico generado y los datos de training etiquetados para sexo y pa\'is, ya se pueden aplicar algoritmos de aprendizaje supervisado. Para esta tarea, se ha usado un clasificador de tipo {\em Random Forest}, en particular {\tt RandomForestClassifier} de {\em scikit-learn}. Este clasificador es una t\'ecnica de {\em ensemble}, que entrena varios \'arboles de decisi\'on con sub-conjuntos del {\em dataset} para as\'i obtener un mejor acierto y prevenir el sobre-ajuste. 
 
 
 \section{Resultados experimentales}
@@ -139,7 +139,7 @@ M\'aster/Diploma Big Data Analytics}
 
   El procesamiento de lenguage natural puede ser una tarea compleja. Hay variaciones en la escrita de la misma persona, errores ortogr\'aficos o palabras con repeticiones para dar enfasis (por ejemplo, ``noooooo``); los sentimientos manifestados pueden ser amb\'iguos; la iron\'ia es dif\'icil de detectar. 
 
-  La predicci\'on de sexo no tiene tan buenos resultados como la de pa\'is. Probablemente el an\'alisis de sentimientos podr\'ia ayudar en ese sentido, por lo que necesitar\'ia una explotaci\'on m\'as profunda. Igualmente, otros elementos de metadata podr\'ian haber sido estudiados y utilizados. 
+  La predicci\'on de sexo no tiene tan buenos resultados como la de pa\'is. Probablemente el an\'alisis de sentimientos podr\'ia ayudar en ese sentido, por lo que necesitar\'ia una explotaci\'on m\'as profunda. Igualmente, otros elementos de metadata podr\'ian haber sido estudiados y utilizados. Se ha usado el mismo vocabulario y clasificador para la predicci\'on de sexo y de pa\'is - una propuesta de mejora futura ser\'ia usar diferentes vocabularios y t\'ecnicas de {\em machine learning} para las dos clases.
 
   Respecto al metadata, los campos {\tt name} y {\tt description} se han inclu\'ido en el texto que se pasa al {\em vectorizer}, esperando que este encuentrase alguna correlaci\'on con el g\'enero del usuario. Sin embargo, esta implementaci\'on no es correcta, una vez que esos campos ser\'an tratados como texto y probablemente no tienen significado suficiente para entrar en la matriz. Se ha verificado que la mejora no ha sido significativa. En una implementaci\'on futura, estos campos se podr\'ian usar como caracter\'isticas extra, para asegurar que se usan en la clasificaci\'on.
   
